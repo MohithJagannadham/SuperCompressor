@@ -1,5 +1,0 @@
-The quick brown fox jumps over the lazy dog. 
-The lazy dog barks loudly at the quick brown fox! 
-ababababababababababababababababababababababab
-1234567890 1234567890 1234567890
-Programming in C++ is fun. Memory management in C++ is crucial.
