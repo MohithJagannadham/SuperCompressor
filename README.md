@@ -44,14 +44,27 @@ Instruct CMake to invoke the underlying compiler and build both the main compres
 
 Bash
 cmake --build build
-Upon a successful 100% compilation, this generates two runnable binaries inside the ./build folder: compressor.exe and run_tests.exe.
+Upon a successful 100% compilation, this generates two runnable binaries inside the ./build folder: compressor (or compressor.exe) and run_tests (or run_tests.exe).
 
 Detailed Usage
-1. Compiling with Performance Metrics
-Run the tool with the --compress or --decompress action flags, specify the target paths, choose your algorithm (huffman or lzw), and pass the --stats flag to profile the execution metrics:
+Run the executable from the build directory. The tool requires explicit flags for the action, input, output, and chosen algorithm.
+
+0. Generate a Large Test Payload (Optional)
+To test the compression scaling with a substantial file size, you can generate a large payload using your terminal (requires a testcase.txt file in your root directory):
+
+PowerShell (Windows):
+
+PowerShell
+1..5000 | ForEach-Object { Get-Content testcase.txt } | Set-Content massive_payload.txt
+Bash (Linux/macOS):
 
 Bash
-./build/compressor --compress --input massive_payload.txt --output massive.bin --algo lzw --stats
+for i in {1..5000}; do cat testcase.txt >> massive_payload.txt; done
+1. Compiling with Performance Metrics
+Run the tool with the --compress action flag, specify the target paths, choose your algorithm (huffman or lzw), and pass the --stats flag to profile the execution metrics:
+
+Bash
+./build/compressor --compress --input massive_payload.txt --output archive.bin --algo lzw --stats
 Example Output:
 
 Plaintext
@@ -67,7 +80,7 @@ Space Ratio    : 7.49% of original
 To restore a file back to its original loss-free state, swap to the --decompress flag:
 
 Bash
-./build/compressor --decompress --input massive.bin --output restored.txt --algo lzw
+./build/compressor --decompress --input archive.bin --output restored.txt --algo lzw
 Running the Automated Test Suite
 To verify the functional correctness of the bit-stream mechanics, Huffman encoding parameters, and LZW dictionary traversal, run the standalone native test binary directly:
 
